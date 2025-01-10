@@ -13,5 +13,6 @@ Route::post('/register', [apiController::class,'register']);
 Route::post('/login', [apiController::class,'login']);
 
 Route::get('/alluser',[apiController::class,'allUser'])->middleware('auth:sanctum');
+Route::post('/store/todo',[apiController::class,'Store'])->middleware('auth:sanctum');
 
 

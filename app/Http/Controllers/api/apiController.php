@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Promise\Create;
 use function Laravel\Prompts\error;
 use App\Http\Controllers\Controller;
+use App\Models\Todo;
 // use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Auth;
@@ -146,6 +147,52 @@ class apiController extends Controller
 
 
   }
+
+
+
+// STORE TODO
+
+function Store(Request $request){
+
+  $validator = Validator::make($request->all(), [
+
+    'name'    => 'required',
+    'description' => 'required|min:6'
+
+  ]);
+
+  if($validator->fails()){
+    return response()->json([
+      'status' => false,
+      'message' => $validator->errors() ,
+
+    ], 200);
+
+
+  }else{
+    $todo = new Todo();
+    $todo->name = $request->name;
+    $todo->description = $request->description;
+    $todo->user_id = auth()->user()->id;
+
+    $todo->save();
+    
+$user = auth()->user();
+    $todos = Todo::where('user_id',$user->id)->get();
+
+   return response()->json([
+      'status'=>true,
+      'message'=> 'store successfully',
+      'user'=>$user,
+      'todos'=> $todos,
+    ],300);
+
+  }
+
+
+
+
+}
 
 
 
