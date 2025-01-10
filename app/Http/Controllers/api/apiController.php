@@ -131,7 +131,28 @@ class apiController extends Controller
     }
 
 
-    
 
   }
+
+  // GET ALL USER LFUNCTION
+  function alluser(){
+
+  $user =User::get();
+  return response()->json([
+    'status'=>true,
+    'message'=>'all user',
+    'user'=> $user,
+  ]);
+
+
+  }
+
+
+
+
+
+
+
+
+
 }
