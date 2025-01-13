@@ -20,3 +20,4 @@ Route::post('/store/subtodo',[apiController::class,'subStore'])->middleware('aut
 // EDITE TO DO
 
 route::put('/editetodo/{id}',[apiController::class,'editeTodo'])->middleware('auth:sanctum');
+route::delete('/deleteTodo/{id}',[apiController::class,'deleteTodo'])->middleware('auth:sanctum');

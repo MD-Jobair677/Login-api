@@ -293,16 +293,37 @@ function editeTodo(Request $request, $id){
 
   }
 
+}
+
+   //  DELETE TODO
+
+   function deleteTodo( Request $request,  $id){
+  $todo = Todo::find($id);
+
+  
+
+  if($todo==!null){
+    $todo->delete();
+    return response()->json([
+      'staus'=>true,
+      'message'=>'delete successfully',
 
 
 
+    ]);
+  }else{
+    return response()->json([
+
+      'satus'=>false,
+      'message'=>'data not pound',
 
 
 
+    ]);
+  }
 
-  // return response()->json([
-  //   'user'=>$findtodo,
-  // ]);
+}
+
 
 
 }
@@ -315,4 +336,4 @@ function editeTodo(Request $request, $id){
 
 
 
-}
+
