@@ -10,4 +10,9 @@ class Todo extends Model
     public function user (){
         return $this->belongsTo(User::class);
     }
+
+    public function subtodo (){
+        return $this->hasMany(Subtodo::class);
+    }
+
 }

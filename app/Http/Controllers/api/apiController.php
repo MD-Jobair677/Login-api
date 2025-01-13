@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Promise\Create;
 use function Laravel\Prompts\error;
 use App\Http\Controllers\Controller;
+use App\Models\Subtodo;
 use App\Models\Todo;
 // use Illuminate\Support\Facades\Auth;
 
@@ -185,11 +186,123 @@ $user = auth()->user();
       'message'=> 'store successfully',
       'user'=>$user,
       'todos'=> $todos,
-    ],300);
+    ],200);
 
   }
 
 
+
+
+}
+
+// SUB TODO'
+
+function subStore(Request $request){
+
+  $validator = Validator::make($request->all(), [
+
+    'title'    => 'required',
+    'todo_id'    => 'required',
+    'description' => 'required|min:6'
+
+  ]);
+
+
+  if($validator->fails()){
+    return response()->json([
+      'status' => false,
+      'message' => $validator->errors() ,
+
+    ], 200);
+
+
+  }else{
+
+    $subtodo = new Subtodo();
+    
+    $subtodo->todo_id = $request->todo_id;
+    $subtodo->title = $request->title;
+    $subtodo->description = $request->description;
+    $subtodo->user_id = auth()->user()->id;
+
+    $subtodo->save();
+    $user = auth()->user();
+    $subtodos = Subtodo::with('todo')->where('user_id', $user->id)->get();
+
+
+    return response()->json([
+      'status'=>true,
+      'message'=> 'store successfully',
+      'user'=>$user,
+      'subtodos'=> $subtodos,
+    ],200);
+
+
+
+  }
+
+
+}
+
+
+
+
+
+// EDITE TODO
+
+function editeTodo(Request $request, $id){
+
+
+
+  
+
+  $validator = Validator::make($request->all(), [
+
+    'name'    => 'required',
+    'description' => 'required|min:6'
+
+  ]);
+
+  if($validator->fails()){
+    return response()->json([
+      'status' => false,
+      'message' => $validator->errors() ,
+
+    ], 200);
+
+
+  }else{
+
+    $findtodo = Todo::find($id);
+    $findtodo = new Todo();
+    $findtodo->name = $request->name;
+    $findtodo->description = $request->description;
+    $findtodo->user_id = auth()->user()->id;
+    
+
+    $findtodo->save();
+    
+    
+
+   return response()->json([
+      'status'=>true,
+      'message'=> 'update successfully',
+      
+      'findtodo'=> $findtodo,
+    ],200);
+
+  }
+
+
+
+
+
+
+
+
+  // return response()->json([
+  //   'user'=>$findtodo,
+  // ]);
 
 
 }
