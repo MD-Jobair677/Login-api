@@ -174,12 +174,12 @@ function Store(Request $request){
     $todo = new Todo();
     $todo->name = $request->name;
     $todo->description = $request->description;
-    $todo->user_id = auth()->user()->id;
+    $todo->user_id ='1';
 
     $todo->save();
     
-$user = auth()->user();
-    $todos = Todo::where('user_id',$user->id)->get();
+$user = auth::user();
+    $todos = Todo::where('user_id',1)->get();
 
    return response()->json([
       'status'=>true,
@@ -223,10 +223,10 @@ function subStore(Request $request){
     $subtodo->todo_id = $request->todo_id;
     $subtodo->title = $request->title;
     $subtodo->description = $request->description;
-    $subtodo->user_id = auth()->user()->id;
+    $subtodo->user_id = 1;
 
     $subtodo->save();
-    $user = auth()->user();
+    $user = auth::user();
     $subtodos = Subtodo::with('todo')->where('user_id', $user->id)->get();
 
 
@@ -250,9 +250,9 @@ function subStore(Request $request){
 
 // EDITE TODO
 
-function editeTodo(Request $request, $id){
+function update(Request $request, $id){
 
-
+  dd($request->all());
 
   
 
@@ -277,7 +277,7 @@ function editeTodo(Request $request, $id){
     $findtodo = new Todo();
     $findtodo->name = $request->name;
     $findtodo->description = $request->description;
-    $findtodo->user_id = auth()->user()->id;
+    $findtodo->user_id =1;
     
 
     $findtodo->save();
@@ -326,6 +326,34 @@ function editeTodo(Request $request, $id){
 
 
 
+
+
+function index()
+{
+  $user = auth::user();
+  $todos = Todo::get();
+
+  return response()->json([
+    'status' => true,
+    'message' => 'All todos',
+    'todos' => $todos,
+    'user' => $user,
+  ], 200);
+
+}
+
+function singleTodo($id)
+{
+  $user = auth::user();
+  $todos = Todo::find($id);
+
+  return response()->json([
+    'status' => true,
+    'message' => 'All todos',
+    'todos' => $todos,
+    'user' => $user,
+  ], 200);
+
 }
 
 
@@ -334,6 +362,9 @@ function editeTodo(Request $request, $id){
 
 
 
+
+
+}
 
 
 
