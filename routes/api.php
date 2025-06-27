@@ -12,13 +12,13 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [apiController::class,'register']);
 Route::post('/login', [apiController::class,'login']);
 
-Route::get('show/all/todo',[apiController::class,'index']);
-Route::get('/single/todo/{id}',[apiController::class,'singleTodo']);
-Route::post('store/todo',[apiController::class,'Store']);
+Route::get('show/all/todo',[apiController::class,'index'])->middleware('auth:sanctum');
+Route::get('/single/todo/{id}',[apiController::class,'singleTodo'])->middleware('auth:sanctum');
+Route::post('store/todo',[apiController::class,'Store'])->middleware('auth:sanctum');
 Route::post('/store/subtodo',[apiController::class,'subStore'])->middleware('auth:sanctum');
 
 
 // EDITE TO DO
 
-route::put('/update/todo/{id}',[apiController::class,'update']);
-route::delete('/deleteTodo/{id}',[apiController::class,'deleteTodo']);
+route::put('update/todo/{id}',[apiController::class,'update'])->middleware('auth:sanctum');
+route::delete('/deleteTodo/{id}',[apiController::class,'deleteTodo'])->middleware('auth:sanctum');
